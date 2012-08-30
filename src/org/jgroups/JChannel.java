@@ -212,7 +212,7 @@ public class JChannel extends Channel {
      */
     public synchronized void connect(String channel_name) throws ChannelException, ChannelClosedException {
         /*make sure the channel is not closed*/
-        System.out.println("\n\n\nchannel_name :"+channel_name+"\n\n\n");
+        System.out.println("\nConnecting to channel '"+channel_name+"'");
         checkClosed();
 
         /*if we already are connected, then ignore this*/
