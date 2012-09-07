@@ -3,9 +3,9 @@
 package org.jgroups.protocols;
 
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+//import java.awt.*;
+//import java.awt.event.ActionEvent;
+//import java.awt.event.ActionListener;
 import java.util.Vector;
 import org.jgroups.Event;
 import org.jgroups.Address;
@@ -17,7 +17,7 @@ import org.jgroups.util.RspList;
 
 
 
-
+/*
 class MyFrame extends Frame {
     List        list=new List();
     Label       result=new Label("Result:          ");
@@ -86,7 +86,7 @@ class MyFrame extends Frame {
 	this.members=members;
     }
 
-}
+}*/
 
 
 
@@ -97,7 +97,7 @@ class MyFrame extends Frame {
  */
 public class DEADLOCK extends RpcProtocol {
     Vector   members=new Vector();
-    MyFrame  frame=null;
+    //MyFrame  frame=null;
     
 
 
@@ -111,16 +111,16 @@ public class DEADLOCK extends RpcProtocol {
             _corr.setDeadlockDetection(true);
         else
             System.err.println("Cannot set deadlock detection in corr, as it is null !");
-        frame=new MyFrame(getName(), this);
-        frame.show();
+        /*frame=new MyFrame(getName(), this);
+        frame.show();*/
     }
 
     public void stop() {
         super.stop();
-        if(frame != null) {
+       /* if(frame != null) {
             frame.dispose();
             frame=null;
-        }
+        }*/
     }
     
 
@@ -194,12 +194,12 @@ public class DEADLOCK extends RpcProtocol {
 		    for(int i=0; i < new_members.size(); i++)
 			members.addElement(new_members.elementAt(i));
 	    }
-	    frame.setMembers(members);
+	    //frame.setMembers(members);
 	    break;
 
 
 	case Event.SET_LOCAL_ADDRESS:
-	    frame.setTitle(frame.getTitle() + ": " + evt.getArg().toString());
+	    //frame.setTitle(frame.getTitle() + ": " + evt.getArg().toString());
 	    break;
 	    
 	}
@@ -226,7 +226,8 @@ public class DEADLOCK extends RpcProtocol {
 			members.addElement(new_members.elementAt(i));
 	    }
 	    System.out.println("Setting members");
-	    frame.setMembers(members);
+	    for(int i=0; i < members.size(); i++)
+			System.out.println(members.elementAt(i));
 	    System.out.println("done");
 	    break;
 	}
