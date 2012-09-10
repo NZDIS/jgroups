@@ -388,14 +388,24 @@ public class FRAG2 extends Protocol {
          * opened.
          * @return an array of all the senders in the fragmentation list
          */
-        public synchronized Address[] getSenders() {
-            Address[] result=new Address[frag_tables.size()];
+        public  Address[] getSenders() {
+        	 Address[] result;
+             int index=0;
+
+             synchronized(frag_tables) {
+                 result=new Address[frag_tables.size()];
+                 for(Iterator it=frag_tables.keySet().iterator(); it.hasNext();) {
+                     result[index++]=(Address)it.next();
+                 }
+             }
+             return result;
+        	/* Address[] result=new Address[frag_tables.size()];
             java.util.Enumeration enumeration=frag_tables.keys();
             int index=0;
             while(enumeration.hasMoreElements()) {
                 result[index++]=(Address)enumeration.nextElement();
             }
-            return result;
+            return result;*/
         }
 
         public String toString() {

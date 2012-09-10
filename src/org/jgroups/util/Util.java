@@ -6,10 +6,12 @@ import java.io.*;
 import java.net.BindException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 import org.jgroups.*;
 import org.jgroups.log.Trace;
@@ -748,7 +750,94 @@ public class Util {
         return os != null && os.toLowerCase().startsWith("win") ? true : false;
     }
 
-
+    /**
+     * Returns the address of the current host, which satisfies type. The type could be 
+     * interface name or IPV4, IPV6.
+     */
+    
+    public static String getNonLoopBackAddress(String type) {
+        String address=null ;
+        List ipv4=new List();
+        List ipv6=new List();
+        System.out.println("go to Util.java");
+        try {
+        	NetworkInterface intface=NetworkInterface.getByName(type);
+        	System.out.println("intface: "+intface);
+        	if (intface!=null){
+        	for (Enumeration<InetAddress> enumIpAddr = intface
+					.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+				InetAddress inetAddress = enumIpAddr.nextElement();
+				if (!inetAddress.isLoopbackAddress()) {
+					System.out.println("local all interface address:"
+							+ inetAddress.getHostAddress().toString());
+					String tmp=inetAddress.getHostAddress().toString();
+					if (!tmp.contains(":")) {
+						address=tmp;
+						System.out.println("local ip4 address:"
+								+ inetAddress.getHostAddress()
+										.toString() + "=="
+								+ tmp);
+					}
+					
+					}
+				}
+        	}else{
+        	for (Enumeration<NetworkInterface> en = NetworkInterface
+					.getNetworkInterfaces(); en.hasMoreElements();) {
+				NetworkInterface intf = en.nextElement();
+				
+				for (Enumeration<InetAddress> enumIpAddr = intf
+						.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+					InetAddress inetAddress = enumIpAddr.nextElement();
+					if (!inetAddress.isLoopbackAddress()) {
+						System.out.println("local all interface address:"
+								+ inetAddress.getHostAddress().toString());
+						String tmp=inetAddress.getHostAddress().toString();
+						if (!tmp.contains(":")) {
+							ipv4.add(tmp);
+							System.out.println("local ip4 address:"
+									+ inetAddress.getHostAddress()
+											.toString() + "=="
+									+ tmp);
+						}
+						if(tmp.contains(":")){
+							ipv6.add(tmp);
+						
+						System.out.println("local ip6 address:"
+									+ inetAddress.getHostAddress()
+											.toString() + "=="
+									+ ipv6.size());
+						}
+						}
+					}
+				
+				if(type.equals("IPV4")){
+					if(ipv4!=null){
+						for(Enumeration ip=ipv4.elements(); ip.hasMoreElements();){
+							address=(String)ip.nextElement();
+						System.out.println("ipv4:"+address);
+						}
+					}
+				}
+				if(type.equals("IPV6")){
+					if(ipv6!=null){
+						for(Enumeration ip=ipv6.elements(); ip.hasMoreElements();){
+							address=(String)ip.nextElement();
+						System.out.println("ipv6:"+address);
+						}
+					}
+					
+				}
+			}
+		}
+        }
+        
+			catch (Exception ex) {
+			ex.printStackTrace();
+		}
+        System.out.println("Util.java return address: "+address);
+        return address ;
+    }
 
 
     /*
