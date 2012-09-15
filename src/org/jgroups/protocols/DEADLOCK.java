@@ -3,7 +3,7 @@
 package org.jgroups.protocols;
 
 
-import java.awt.*;
+//import java.awt.*;
 //import java.awt.event.ActionEvent;
 //import java.awt.event.ActionListener;
 import java.util.Vector;
@@ -227,6 +227,8 @@ public class DEADLOCK extends RpcProtocol {
 	    }
 	    System.out.println("Setting members");
 	    //frame.setMembers(members);
+	    for(int i=0; i < members.size(); i++)
+	    	System.out.println(members.elementAt(i));
 	    System.out.println("done");
 	    break;
 	}

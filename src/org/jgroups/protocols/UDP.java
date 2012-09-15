@@ -361,26 +361,26 @@ public class UDP
   public boolean setProperties(Properties props) {
     String str, tmp;
 
-    tmp = System.getProperty("JGroups.bind_addr");
-    if (tmp != null) {
-    	if(!tmp.contains(".")){
-			str = Util.getNonLoopBackAddress(tmp);
-		} else {str = tmp;}
-    }
-    else {
-      str = props.getProperty("bind_addr");
-    }
-    if (str != null) {
-      try {
-        bind_addr = InetAddress.getByName(str);
-      }
-      catch (UnknownHostException unknown) {
-        Trace.fatal("UDP.setProperties()",
-                    "(bind_addr): host " + str + " not known");
-        return false;
-      }
-      props.remove("bind_addr");
-    }
+		tmp = System.getProperty("JGroups.bind_addr"); //get bind address from system property
+		if (tmp != null) {
+			if (!tmp.contains(".")) {
+				str = Util.getNonLoopBackAddress(tmp);
+			} else {
+				str = tmp;
+			}
+		} else {
+			str = props.getProperty("bind_addr"); //get bind address from property string
+		}
+		if (str != null) {
+			try {
+				bind_addr = InetAddress.getByName(str);
+			} catch (UnknownHostException unknown) {
+				Trace.fatal("UDP.setProperties()", "(bind_addr): host " + str
+						+ " not known");
+				return false;
+			}
+			props.remove("bind_addr");
+		}
 
     str = props.getProperty("bind_port");
     if (str != null) {
@@ -872,7 +872,8 @@ public class UDP
     }*/
     System.out.println("go to UDP.java createSockets():");
 	if (bind_addr == null) {
-		System.out.println("No local interface to bind.");
+		System.out.println("No local interface to bind. System ends.");
+		System.exit(1);
 
 	}
 
