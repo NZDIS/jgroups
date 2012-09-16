@@ -29,7 +29,8 @@ import java.util.Map;
 public class JChannel extends Channel {
 
     /*the default protocol stack*/
-    private String props="UDP(mcast_addr=224.0.0.0;mcast_port=7500;ip_ttl=32):" +
+	private String props;
+    /*private String props="UDP(mcast_addr=224.0.0.0;mcast_port=7500;ip_ttl=32):" +
             "PING(timeout=3000;num_initial_members=6):" +
             "FD(timeout=3000):" +
             "VERIFY_SUSPECT(timeout=1500):" +
@@ -38,7 +39,7 @@ public class JChannel extends Channel {
             "pbcast.STABLE(desired_avg_gossip=10000):" +
             "FRAG:" +
             "pbcast.GMS(join_timeout=5000;join_retry_timeout=2000;" +
-            "shun=true;print_local_addr=true)";
+            "shun=true;print_local_addr=true)";*/
 
     final String FORCE_PROPS="force.properties";
 
@@ -152,9 +153,11 @@ public class JChannel extends Channel {
 
         /*create the new protocol stack*/
         //System.out.println("Before we create the ProtocolStack");
+        //prot_stack=new ProtocolStack(this, props);// it always uses the default property
+        props=(String)properties;
         prot_stack=new ProtocolStack(this, props);
-
-
+       
+        
         /* Setup protocol stack (create layers, queues between them */
         try {
             prot_stack.setup();
