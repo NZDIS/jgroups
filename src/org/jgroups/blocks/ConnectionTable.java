@@ -748,8 +748,10 @@ public class ConnectionTable implements Runnable {
                 Socket tmp_sock=sock;
                 local=tmp_sock.getLocalAddress();
                 remote=tmp_sock.getInetAddress();
-                local_str=local != null ? Util.shortName(local.getHostName()) : "<null>";
-                remote_str=remote != null ? Util.shortName(local.getHostName()) : "<null>";
+                //local_str=local != null ? Util.shortName(local.getHostName()) : "<null>";
+                //remote_str=remote != null ? Util.shortName(local.getHostName()) : "<null>";
+                local_str=local != null ? Util.shortName(local.getHostAddress()) : "<null>";
+                remote_str=remote != null ? Util.shortName(local.getHostAddress()) : "<null>";
                 ret.append("<" + local_str + ":" + tmp_sock.getLocalPort() +
                            " --> " + remote_str + ":" + tmp_sock.getPort() + "> (" +
                            ((System.currentTimeMillis() - last_access) / 1000) + " secs old)");

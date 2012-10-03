@@ -153,10 +153,10 @@ public class IpAddress implements Address {
         if(ip_addr == null)
             sb.append("<null>");
         else {
-            if(ip_addr.isMulticastAddress())
+            //if(ip_addr.isMulticastAddress())
                 sb.append(ip_addr.getHostAddress());
-            else
-                appendShortName(ip_addr.getHostName(), sb);
+            //else
+                //appendShortName(ip_addr.getHostName(), sb);
         }
         sb.append(":" + port);
         if(additional_data != null)

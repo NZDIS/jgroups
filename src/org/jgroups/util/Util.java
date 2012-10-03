@@ -6,12 +6,10 @@ import java.io.*;
 import java.net.BindException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import java.util.ArrayList;
-import java.util.Enumeration;
 
 import org.jgroups.*;
 import org.jgroups.log.Trace;
@@ -128,9 +126,9 @@ public class Util {
     }
 
 
-    public static String getHostname() {
+    public static String getHostAddress() {
         try {
-            return InetAddress.getLocalHost().getHostName();
+            return InetAddress.getLocalHost().getHostAddress();
         }
         catch(Exception ex) {
         }
@@ -750,108 +748,8 @@ public class Util {
         return os != null && os.toLowerCase().startsWith("win") ? true : false;
     }
 
-    /**
-     * Returns the address of the current host, which satisfies type. The type could be 
-     * interface name, "IPV4", "IPV6" or ip address.
-     */
-    
-	public static String getNonLoopBackAddress(String type) {
-		String address = null;
-		
-		System.out.println("go to Util.getNonLoopBackAddress()");
-		
-		try {
-			NetworkInterface intface = NetworkInterface.getByName(type);
-			System.out.println("intface: " + intface);
-			if (intface != null) { // find interface for the type
-				for (Enumeration<InetAddress> enumIpAddr = intface
-						.getInetAddresses(); enumIpAddr.hasMoreElements();) {
-					InetAddress inetAddress = enumIpAddr.nextElement();
-					if (!inetAddress.isLoopbackAddress()) {
-						System.out.println("local all interface address:"
-								+ inetAddress.getHostAddress().toString());
-						String tmp = inetAddress.getHostAddress().toString();
-						if (!tmp.contains(":")) {
-							address = tmp;
-							System.out.println("local ip4 address:"
-									+ inetAddress.getHostAddress().toString()
-									+ "==" + tmp);
-						}
 
-					}
-				}
-			}
 
-			if (type.equals("IPV4")) {// find an ipv4 address
-				for (Enumeration<NetworkInterface> en = NetworkInterface
-						.getNetworkInterfaces(); en.hasMoreElements();) {
-					NetworkInterface intf = en.nextElement();
-
-					for (Enumeration<InetAddress> enumIpAddr = intf
-							.getInetAddresses(); enumIpAddr.hasMoreElements();) {
-						InetAddress inetAddress = enumIpAddr.nextElement();
-						if (!inetAddress.isLoopbackAddress()) {
-							System.out.println("local all interface address:"
-									+ intf.getDisplayName() + "  "
-									+ inetAddress.getHostAddress().toString());
-							String tmp = inetAddress.getHostAddress()
-									.toString();
-							if (!tmp.contains(":")) {
-								address = tmp;
-								System.out.println("local ip4 address:"
-										+ inetAddress.getHostAddress()
-												.toString() + "==" + address);
-							}
-							if(address!=null){return address;} // get the first ipv4 address and return.
-
-						}
-					}
-					
-				}
-			}
-			if (type.equals("IPV6")) { //find an ipv6 address
-
-				for (Enumeration<NetworkInterface> en = NetworkInterface
-						.getNetworkInterfaces(); en.hasMoreElements();) {
-					NetworkInterface intf = en.nextElement();
-
-					for (Enumeration<InetAddress> enumIpAddr = intf
-							.getInetAddresses(); enumIpAddr.hasMoreElements();) {
-						InetAddress inetAddress = enumIpAddr.nextElement();
-						if (!inetAddress.isLoopbackAddress()) {
-							System.out.println("local all interface address:"
-									+ intf.getDisplayName() + "  "
-									+ inetAddress.getHostAddress().toString());
-							String tmp = inetAddress.getHostAddress()
-									.toString();
-							if (tmp.contains(":")) {
-								address = tmp;
-								System.out.println("local ipv6 address:"
-										+ inetAddress.getHostAddress()
-												.toString() + "==" + address);
-							}
-							if(address!=null){return address;} // get the first IPV6 address and return
-
-						}
-					}
-					
-				}
-			}
-			if (address == null) {
-				System.out
-						.println("Couldn't find this type of IP address");
-			}
-
-		}
-
-		catch (Exception ex) {
-			ex.printStackTrace();
-		}
-
-		
-		System.out.println("Util.java return address: " + address);
-		return address;
-	}
 
     /*
     public static void main(String[] args) {

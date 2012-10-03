@@ -1047,9 +1047,12 @@ public class GossipRouter {
                 }
                 catch(EOFException io_ex) {
                     if(Trace.trace) {
+                        //Trace.info("GossipRouter.SocketThread.run()",
+                        //        "client " +sock.getInetAddress().getHostName() + ":" + sock.getPort() +
+                        //        " closed connection; removing it from routing table");
                         Trace.info("GossipRouter.SocketThread.run()",
-                                "client " +sock.getInetAddress().getHostName() + ":" + sock.getPort() +
-                                " closed connection; removing it from routing table");
+                        	"client " +sock.getInetAddress().getHostAddress() + ":" + sock.getPort() +
+                        	" closed connection; removing it from routing table");
                     }
                     removeEntry(sock); // will close socket
                     return;

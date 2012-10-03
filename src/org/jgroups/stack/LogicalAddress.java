@@ -70,7 +70,8 @@ public class LogicalAddress implements Address {
         }
         else {
             try {
-                host=InetAddress.getLocalHost().getHostName();
+                //host=InetAddress.getLocalHost().getHostName();
+                host=InetAddress.getLocalHost().getHostAddress();
             }
             catch(Exception e) {
                 host="localhost";

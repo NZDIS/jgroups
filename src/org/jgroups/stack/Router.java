@@ -507,10 +507,14 @@ public class Router {
                     route(dst_addr, gname, buf);
                 }
                 catch(IOException io_ex) {
-                    if(Trace.trace)
+                    if(Trace.trace) {
+	                    //Trace.info("Router.SocketThread.run()", "client " +
+	                    //        sock.getInetAddress().getHostName() + ":" + sock.getPort() +
+	                    //        " closed connection; removing it from routing table");
                         Trace.info("Router.SocketThread.run()", "client " +
-                                                                sock.getInetAddress().getHostName() + ":" + sock.getPort() +
-                                                                " closed connection; removing it from routing table");
+                        	sock.getInetAddress().getHostAddress() + ":" + sock.getPort() +
+                        	" closed connection; removing it from routing table");
+                    }
                     removeEntry(sock); // will close socket
                     return;
                 }
