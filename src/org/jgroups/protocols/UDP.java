@@ -361,26 +361,24 @@ public class UDP
   public boolean setProperties(Properties props) {
     String str, tmp;
 
-		tmp = System.getProperty("JGroups.bind_addr"); //get bind address from system property
-		if (tmp != null) {
-			if (!tmp.contains(".")) {
-				str = Util.getNonLoopBackAddress(tmp);
-			} else {
-				str = tmp;
-			}
-		} else {
-			str = props.getProperty("bind_addr"); //get bind address from property string
-		}
-		if (str != null) {
-			try {
-				bind_addr = InetAddress.getByName(str);
-			} catch (UnknownHostException unknown) {
-				Trace.fatal("UDP.setProperties()", "(bind_addr): host " + str
-						+ " not known");
-				return false;
-			}
-			props.remove("bind_addr");
-		}
+    tmp = System.getProperty("UDP.bind_addr");
+    if (tmp != null) {
+      str = tmp;
+    }
+    else {
+      str = props.getProperty("bind_addr");
+    }
+    if (str != null) {
+      try {
+        bind_addr = InetAddress.getByName(str);
+      }
+      catch (UnknownHostException unknown) {
+        Trace.fatal("UDP.setProperties()",
+                    "(bind_addr): host " + str + " not known");
+        return false;
+      }
+      props.remove("bind_addr");
+    }
 
     str = props.getProperty("bind_port");
     if (str != null) {
@@ -864,21 +862,15 @@ public class UDP
     // CHANGED *BACK* by bela March 13 2003: binding to all interfaces did not result in a correct
     // local_addr. As a matter of fact, comparison between e.g. 0.0.0.0:1234 (on hostA) and
     // 0.0.0.0:1.2.3.4 (on hostB) would fail !
-   /* if (bind_addr == null) {
+    if (bind_addr == null) {
       InetAddress[] interfaces = InetAddress.getAllByName(InetAddress.
           getLocalHost().getHostAddress());
       if (interfaces != null && interfaces.length > 0)
         bind_addr = interfaces[0];
-    }*/
-    System.out.println("go to UDP.java createSockets():");
-	if (bind_addr == null) {
-		System.out.println("No local interface to bind. System ends.");
-		System.exit(1);
+    }
 
-	}
-
-    //if(bind_addr == null)
-    //  bind_addr = InetAddress.getLocalHost();
+    if(bind_addr == null)
+      bind_addr = InetAddress.getLocalHost();
 
     if (bind_addr != null && Trace.trace) {
       Trace.info("UDP.createSockets()", "unicast sockets will use interface " +

@@ -10,7 +10,6 @@ import org.jgroups.util.Util;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -397,25 +396,14 @@ public class FRAG extends Protocol {
          * opened.
          * @return an array of all the senders in the fragmentation list
          */
-        public  Address[] getSenders() {
-        	 Address[] result;
-             int index=0;
-
-             synchronized(frag_tables) {
-                 result=new Address[frag_tables.size()];
-                 for(Iterator<Address> it=frag_tables.keySet().iterator(); it.hasNext();) {
-                     result[index++]=it.next();
-                 }
-             }
-             return result;
-        	
-        	/*Address[] result=new Address[frag_tables.size()];
+        public synchronized Address[] getSenders() {
+            Address[] result=new Address[frag_tables.size()];
             java.util.Enumeration enumeration=frag_tables.keys();
             int index=0;
             while(enumeration.hasMoreElements()) {
                 result[index++]=(Address)enumeration.nextElement();
             }
-            return result;*/
+            return result;
         }
 
         public String toString() {
